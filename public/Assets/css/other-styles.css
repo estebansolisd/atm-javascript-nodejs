@@ -1,0 +1,79 @@
+body{
+    background-color: #09488e !important;
+}
+.responsive{
+    display: flex;
+    flex-direction: column;
+}
+.justify-evenly{
+    justify-content: space-evenly;
+}
+.cmb{
+    height: 6vh
+}
+.center-img{
+    align-items: center;
+}
+hr{
+    background-color: #cccccc;
+}
+#money{
+    color: aliceblue;
+}
+.image, .cmb, .buttons{
+    width: 20vw;
+}
+
+.h6{
+    color: antiquewhite;
+}
+
+@media only screen and (max-width: 237px) {
+    .image, .cmb, .buttons{
+        min-width: 90vw;
+    }
+} 
+
+@media only screen and (min-width: 237px) {
+    .image, .cmb, .buttons{
+        min-width: 70vw;
+    }
+} 
+@media only screen and (min-width: 474px) {
+    .image, .cmb, .buttons{
+        min-width: 60vw;
+    }
+} 
+@media only screen and (min-width: 558px) {
+    .image, .cmb, .buttons{
+        min-width: 50vw;
+    }
+} 
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .image, .cmb, .buttons{
+        min-width: 40vw;
+    }
+} 
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .image, .cmb, .buttons{
+        min-width: 30vw;
+    }
+
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .image, .cmb, .buttons{
+        min-width: 30vw;
+    }
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    .image, .cmb, .buttons{
+        min-width: 20vw;
+    }
+}
