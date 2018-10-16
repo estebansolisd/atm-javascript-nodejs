@@ -1,4 +1,5 @@
 var API_URL = 'http://localhost:3000/users'
+var URL_CONNECT = 'http://localhost:3000/connectedUser'
 const showRegisterForm = () => {
     $('#second-child').fadeIn('slow', () => {
         $('#second-child').css('display', 'flex');
@@ -115,19 +116,32 @@ const removeRegister = () => {
     });
 
 }
-const listUsers = (username,password) => {
+const listUsers = (username, password) => {
     fetch(API_URL)
-    .then(response => response.json())
-    .then(users =>  {
-       
-        users.forEach(element => {
-            if (Object.is(element['username'], username) && Object.is(element['password'], password)) {
-                window.location = "Views/menu.html";
-            }
+        .then(response => response.json())
+        .then(users => {
+
+            users.forEach(element => {
+                if (Object.is(element['username'], username) && Object.is(element['password'], password)) {
+                    const ConUser = {
+                        id: element['_id']
+                    }
+                    fetch(URL_CONNECT, {
+                        method: 'POST',
+                        body: JSON.stringify(ConUser),
+                        headers: {
+                            'content-type': 'application/json'
+                        }
+                    }).then(response => response.json())
+                    .then(createdConUser => {
+                        console.log(createdConUser);
+                    })
+                    window.location = "Views/menu.html";
+                }
+            });
+            bootbox.alert({
+                message: 'user does not exists ! :(',
+                className: 'btn-warning'
+            });
         });
-        bootbox.alert({
-            message: 'user does not exists ! :(',
-            className: 'btn-warning'
-        });       
-    });
 }

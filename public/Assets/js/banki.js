@@ -1,0 +1,1 @@
+const menuLocation = location => window.location = location;
