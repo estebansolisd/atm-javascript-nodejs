@@ -2,6 +2,9 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const cors = require('cors');
+const monk = require('monk');
+const db = monk('localhost/user');
+const users = db.get('users');
 //Validating the data
 const isValidNew = user => user.username && user.username.toString().trim() !== '' && user.password && user.password.toString().trim()
 //Some settings for the json
@@ -15,13 +18,25 @@ app.get('/public', (req, res) => {
         message: 'Hello'
     });
 });
+app.get('/users', (req,res) => {
+    users.find()
+    .then(users => {
+        res.json(users);
+    })
+})
 app.post('/users', (req, res) => {
     if (isValidNew(req.body)) {
         const User = {
             username: req.body.username.toString(),
             password: req.body.password.toString(),
-            money: req.body.money.toString()
+            money: req.body.money.toString(),
+            created: new Date()
         }
+        users
+            .insert(User)
+            .then(createdUser => {
+                res.json(createdUser);
+            });
         console.log(User);
         console.log('Insert to db');
     } else {

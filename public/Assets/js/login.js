@@ -45,6 +45,9 @@ const showRegisterForm = () => {
     });
 
 }
+const loginUser = () => {
+    listUsers($('#username').val(), $('#password').val());
+}
 const register = () => {
     if ($('#Registerusername').val() !== '' && $('#Registerpassword1').val() !== '' && $('#Registerpassword2').val() !== '') {
         if ($('#Registerpassword1').val() !== $('#Registerpassword2').val()) {
@@ -61,13 +64,16 @@ const register = () => {
                 password,
                 money: ''
             }
-            fetch(API_URL,{
+            fetch(API_URL, {
                 method: 'POST',
                 body: JSON.stringify(User),
-                headers:{
-                    'content-type':'application/json'
+                headers: {
+                    'content-type': 'application/json'
                 }
-            })
+            }).then(response => response.json())
+                .then(createdUser => {
+                    console.log(createdUser);
+                })
             console.log(User);
             bootbox.alert({
                 message: 'Saved 😄'
@@ -108,4 +114,20 @@ const removeRegister = () => {
         $('#second-child').css('display', 'none');
     });
 
+}
+const listUsers = (username,password) => {
+    fetch(API_URL)
+    .then(response => response.json())
+    .then(users =>  {
+       
+        users.forEach(element => {
+            if (Object.is(element['username'], username) && Object.is(element['password'], password)) {
+                window.location = "Views/menu.html";
+            }
+        });
+        bootbox.alert({
+            message: 'user does not exists ! :(',
+            className: 'btn-warning'
+        });       
+    });
 }
