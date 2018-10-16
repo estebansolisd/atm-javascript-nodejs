@@ -84,7 +84,6 @@ app.post('/connectedUser', (req, res) => {
             .then(conUsers => {
                 res.json(conUsers);
             });
-        console.log(connectedUser);
         console.log('Connected user inseted');
     } else {
         res.status(422);
@@ -98,6 +97,13 @@ app.post('/updateUsers', (req, res) => {
         { "money": req.body.money.toString() } },  (err)  => {
           console.log(err);
         }).then(console.log('Update user db'));
+})
+app.post('/updateUsersMoney', (req, res) => {
+    let money = users.find({_id: req.body.id}, { fields: { money: 1 } });
+    console.log(money)
+    users.update({ _id: req.body.id }, { $set:
+        { "money":  money - req.body.money }}
+        )
 })
 //Settings
 app.set('port', process.env.PORT || 3000);
