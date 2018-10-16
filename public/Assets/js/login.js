@@ -74,7 +74,6 @@ const register = () => {
                 .then(createdUser => {
                     console.log(createdUser);
                 })
-            console.log(User);
             bootbox.alert({
                 message: 'Saved 😄'
             });
@@ -90,7 +89,8 @@ const removeRegister = () => {
         $('.remove2').remove();
         $('#first-child').html(
             `
-            <a href="index.html"><img src="Assets/img/bn.png" alt="" srcset=""></a>
+            <a href="index.html"> <img src="Assets/img/bn.png" alt="" srcset="" class="remove remove2">
+            </a>
             <form id="registerForm" class="remove2">
                 <input class="remove2" id="Registerusername" type="text" placeholder="Write your username.."
                     autocomplete="username" autocomplete="email">
@@ -104,7 +104,7 @@ const removeRegister = () => {
                 <input class="remove" id="username" type="text" placeholder="Write your username.." autocomplete="username"
                     autocomplete="email">
                 <input class="remove" id="password" type="password" placeholder="Write your password.." autocomplete="current-password">
-                <input class="remove" id="login" type="button" value="Login">
+                <input class="remove" id="login"  type="button" value="Login" onclick="loginUser();">
                 <input class="remove" id="register" type="button" value="Register" onclick="showRegisterForm();">
             </form>
             `

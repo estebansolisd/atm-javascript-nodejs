@@ -4,6 +4,8 @@ const app = express();
 const cors = require('cors');
 const monk = require('monk');
 const db = monk('localhost/user');
+const db = monk('localhost/connectedUser');
+const connectedUser = db.get('connectedUser');
 const users = db.get('users');
 //Validating the data
 const isValidNew = user => user.username && user.username.toString().trim() !== '' && user.password && user.password.toString().trim()
@@ -45,6 +47,12 @@ app.post('/users', (req, res) => {
             message: 'Hey! username and password are required'
         });
     }
+})
+app.post('/updateUsers', (req, res) => {
+    users.update({ _id: req.body.id }, { $set:
+        { "money": req.body.money.toString() } },  (err)  => {
+          console.log(err);
+        }).then(console.log('Update user db'));
 })
 //Settings
 app.set('port', process.env.PORT || 3000);

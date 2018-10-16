@@ -1,13 +1,7 @@
-window.onload = () => {
-    let persons = ['kenda', 'loco', 'jolines']; //USERS xD
-    let count = 0;
-    persons.forEach(element => {
-        $('#cmbMenu').html($('#cmbMenu').html() + `<button class="dropdown-item" id="cmbItem${count}"type="button" onclick="SelectedItem(${count})">${element}</button>`)
-        count++;
-    });
-
-}
+var URL = 'http://localhost:3000/updateUsers';
+var hiddenItem = '#hiddenItem';
 const SelectedItem = num => {
+    hiddenItem += num; 
     $('#dropdownMenu2').html($(`#cmbItem${num}`).html());
 }
 
@@ -25,7 +19,25 @@ const Submited = (msg) => {
             }
         },
         callback: result => {
-            console.log('This was logged in the callback: ' + result);
+
+            if (result) {
+                const moneyDeposit = $('#moneyDeposit').val();
+                //Setting the objects
+                const User = {
+                    money: moneyDeposit,
+                    id: $(hiddenItem).val() 
+                }
+                fetch(URL, {
+                    method: 'POST',
+                    body: JSON.stringify(User),
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                })
+                bootbox.alert({
+                    message: 'Deposited 😄'
+                });
+            } 
         }
     });
 }
