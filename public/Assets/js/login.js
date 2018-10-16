@@ -1,5 +1,6 @@
+var API_URL = 'http://localhost:3000/users'
 const showRegisterForm = () => {
-    $('#second-child').fadeIn('slow',() =>{
+    $('#second-child').fadeIn('slow', () => {
         $('#second-child').css('display', 'flex');
     });
     $('.remove').fadeOut('slow', () => {
@@ -19,7 +20,7 @@ const showRegisterForm = () => {
                 `
             )
         ).then(
-            
+
             $('#registerForm')
                 .css("display", "flex", () => {
                     $('#registerForm').fadeIn('slow')
@@ -39,7 +40,7 @@ const showRegisterForm = () => {
                 .css("flex-direction", "column", () => {
                     $('#registerForm').fadeIn('slow')
                 })
-            
+
         );
     });
 
@@ -51,17 +52,34 @@ const register = () => {
                 message: 'Check your password'
             });
         } else {
+            //Getting the data
+            const username = $('#Registerusername').val();
+            const password = $('#Registerpassword1').val();
+            //Setting the objects
+            const User = {
+                username,
+                password,
+                money: ''
+            }
+            fetch(API_URL,{
+                method: 'POST',
+                body: JSON.stringify(User),
+                headers:{
+                    'content-type':'application/json'
+                }
+            })
+            console.log(User);
             bootbox.alert({
                 message: 'Saved 😄'
             });
         }
-    }else{
+    } else {
         bootbox.alert({
             message: 'Complete the fields'
         });
     }
 }
-const removeRegister = () =>{
+const removeRegister = () => {
     $('.remove2').fadeOut('slow', () => {
         $('.remove2').remove();
         $('#first-child').html(
@@ -86,7 +104,7 @@ const removeRegister = () =>{
             `
         );
     });
-    $('#second-child').fadeOut('slow',() =>{
+    $('#second-child').fadeOut('slow', () => {
         $('#second-child').css('display', 'none');
     });
 
