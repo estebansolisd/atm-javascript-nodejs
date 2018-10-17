@@ -1,6 +1,6 @@
-var URL = 'http://localhost:3000/updateUsers';
-var URLM = 'http://localhost:3000/updateUsersMoney';
-const LASTID = 'http://localhost:3000/getId';
+var URL = window.location.hostname == 'localhost' ? `http://localhost:3000/updateUsers` : `https://atm-javascript.herokuapp.com/updateUsers` ;
+var URLM = window.location.hostname == 'localhost' ? `http://localhost:3000/updateUsersMoney` : `https://atm-javascript.herokuapp.com/updateUsersMoney` ;
+const LASTID = window.location.hostname == 'localhost' ? `http://localhost:3000/getId` : `https://atm-javascript.herokuapp.com/getId` ;
 var hiddenItem = '#hiddenItem';
 const SelectedItem = num => {
     hiddenItem += num;

@@ -1,4 +1,4 @@
-var API_URL = 'http://localhost:3000/users'
+var API_URL = window.location.hostname == 'localhost' ? `http://localhost:3000/users` : `https://atm-javascript.herokuapp.com/users` ;
 const menuLocation = location => window.location = location;
 window.onload = () => {
     fetch(API_URL)

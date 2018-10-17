@@ -1,5 +1,5 @@
-var API_URL = 'http://localhost:3000/users'
-var URL_CONNECT = 'http://localhost:3000/connectedUser'
+var API_URL = window.location.hostname == 'localhost' ? `http://localhost:3000/users` : `https://atm-javascript.herokuapp.com/users` ;
+var URL_CONNECT = window.location.hostname == 'localhost' ? `http://localhost:3000/connectedUser` : `https://atm-javascript.herokuapp.com/connectedUser` ;
 const showRegisterForm = () => {
     $('#second-child').fadeIn('slow', () => {
         $('#second-child').css('display', 'flex');
