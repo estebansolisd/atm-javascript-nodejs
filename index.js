@@ -3,8 +3,8 @@ const path = require('path');
 const app = express();
 const cors = require('cors');
 const monk = require('monk');
-const db = monk('localhost/user');
-const dbConnected = monk('localhost/connectedUser');
+const db = monk('ifallinmeat:Cookies890@ds235243.mlab.com:35243/user' || 'localhost/user');
+const dbConnected = monk('ifallinmeat:Cookies890@ds135233.mlab.com:35233/connecteduser' || 'localhost/connecteduser');
 const connectedUser = dbConnected.get('connectedUser');
 const users = db.get('users');
 /** For remove all data*/
