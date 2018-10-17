@@ -42,22 +42,6 @@ const Submited = (msg) => {
                             }
                         }).then(bootbox.alert({ message: msg == 0 ? 'Deposited 😄' : 'Windrawed 😄' }))
                     });
-                    /**
-                    const User = {
-                        money: moneyDeposit,
-                        id: $(hiddenItem).val()
-                    }
-                    fetch(URL, {
-                        method: 'POST',
-                        body: JSON.stringify(User),
-                        headers: {
-                            'content-type': 'application/json'
-                        }
-                    }).then(
-                        bootbox.alert({
-                            message: msg == 0 ? 'Deposited 😄' : 'Windrawed 😄'
-                        })
-                    )*/
                 } else {
                     const moneyWindraw = $('#numberMoney').val();
                     //Setting the objects
