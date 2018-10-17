@@ -26,6 +26,23 @@ const Submited = (msg) => {
                 if (msg == 0) {
                     const moneyDeposit = $('#moneyDeposit').val();
                     //Setting the objects
+                    fetch(LASTID)
+                    .then(response => response.json())
+                    .then(conUser => {
+                        const UserDeposit = {
+                            id: conUser[0]['id'],
+                            depositId: $(hiddenItem).val(),
+                            money: moneyDeposit
+                        }
+                        fetch(URL, {
+                            method: 'POST',
+                            body: JSON.stringify(UserDeposit),
+                            headers: {
+                                'content-type': 'application/json'
+                            }
+                        }).then(bootbox.alert({ message: msg == 0 ? 'Deposited 😄' : 'Windrawed 😄' }))
+                    });
+                    /**
                     const User = {
                         money: moneyDeposit,
                         id: $(hiddenItem).val()
@@ -40,17 +57,16 @@ const Submited = (msg) => {
                         bootbox.alert({
                             message: msg == 0 ? 'Deposited 😄' : 'Windrawed 😄'
                         })
-                    )
+                    )*/
                 } else {
                     const moneyWindraw = $('#numberMoney').val();
                     //Setting the objects
                     fetch(LASTID)
                         .then(response => response.json())
                         .then(conUser => {
-                            console.log(conUser[0]['id']);
                             const UserWindraw = {
-                                id : conUser[0]['id'],
-                                money : moneyWindraw 
+                                id: conUser[0]['id'],
+                                money: moneyWindraw
                             }
                             fetch(URLM, {
                                 method: 'POST',
@@ -58,9 +74,9 @@ const Submited = (msg) => {
                                 headers: {
                                     'content-type': 'application/json'
                                 }
-                            }).then(bootbox.alert({message: msg == 0 ? 'Deposited 😄' : 'Windrawed 😄'}))
-                });
-}
+                            }).then(bootbox.alert({ message: msg == 0 ? 'Deposited 😄' : 'Windrawed 😄' }))
+                        });
+                }
             }
         }
     });

@@ -4,8 +4,6 @@ window.onload = () => {
     fetch(API_URL)
         .then(response => response.json())
         .then(users => {
-            console.log('The object of users');
-            console.log(users);
             let count = 0;
             users.forEach(element => {
                 $('#cmbMenu').html($('#cmbMenu').html() + `<button class="dropdown-item" id="cmbItem${count}" type="button" onclick="SelectedItem(${count})">${element['username']}</button>`)

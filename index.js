@@ -7,7 +7,7 @@ const db = monk('localhost/user');
 const dbConnected = monk('localhost/connectedUser');
 const connectedUser = dbConnected.get('connectedUser');
 const users = db.get('users');
-/** For remove all data*/ 
+/** For remove all data*/
 //Validating the data
 const isValidNew = user => user.username && user.username.toString().trim() !== '' && user.password && user.password.toString().trim()
 //Some settings for the json
@@ -21,30 +21,30 @@ app.get('/public', (req, res) => {
         message: 'Hello'
     });
 });
-app.get('/users', (req,res) => {
+app.get('/users', (req, res) => {
     users.find()
-    .then(users => {
-        res.json(users);
-    })
+        .then(users => {
+            res.json(users);
+        })
 })
-app.get('/getId', (req,res) => {
+app.get('/getId', (req, res) => {
     connectedUser.find()
-    .then(conUser => {
-        res.json(conUser);
-    })
+        .then(conUser => {
+            res.json(conUser);
+        })
 })
-app.post('/checkMoney', (req,res) => {
-    Object.size = function(obj) {
+app.post('/checkMoney', (req, res) => {
+    Object.size = function (obj) {
         var size = 0, key;
         for (key in obj) {
             if (obj.hasOwnProperty(key)) size++;
         }
         return size;
     };
-    users.find({_id: req.body[Object.size(req.body) -1]['id']}, { fields: { money: 1 } }) // equivalent
-    .then(conUser => {
-        res.json(conUser);
-    })
+    users.find({ _id: req.body[Object.size(req.body) - 1]['id'] }, { fields: { money: 1 } }) // equivalent
+        .then(conUser => {
+            res.json(conUser);
+        })
 })
 app.post('/users', (req, res) => {
     if (isValidNew(req.body)) {
@@ -55,10 +55,10 @@ app.post('/users', (req, res) => {
             created: new Date()
         }
         users
-        .insert(User)
-        .then(createdUser => {
-            res.json(createdUser);
-        });
+            .insert(User)
+            .then(createdUser => {
+                res.json(createdUser);
+            });
         console.log(User);
         console.log('Insert to db');
     } else {
@@ -68,11 +68,11 @@ app.post('/users', (req, res) => {
         });
     }
 })
-app.get('/connectedUser', (req,res) => {
+app.get('/connectedUser', (req, res) => {
     connectedUser.find()
-    .then(conUser => {
-        res.json(conUser);
-    })
+        .then(conUser => {
+            res.json(conUser);
+        })
 })
 app.post('/connectedUser', (req, res) => {
     const conUser = {
@@ -80,12 +80,12 @@ app.post('/connectedUser', (req, res) => {
     }
     if (req.body.id !== '') {
         connectedUser
-            .remove({}, () =>{
+            .remove({}, () => {
                 connectedUser
-                .insert(conUser)
-                .then(conUsers => {
-                    res.json(conUsers);
-                })
+                    .insert(conUser)
+                    .then(conUsers => {
+                        res.json(conUsers);
+                    })
             })
         console.log('Connected user inseted');
     } else {
@@ -96,22 +96,40 @@ app.post('/connectedUser', (req, res) => {
     }
 })
 app.post('/updateUsers', (req, res) => {
-    users.update({ _id: req.body.id }, { $set:
-        { "money": req.body.money.toString() } },  (err)  => {
-          console.log(err);
-        }).then(console.log('Update user db'));
+    users.find({ _id: req.body.depositId }, { fields: { money: 1 } })
+        .then(money => {
+            console.log(req.body.depositId);         
+            const newMoney = isNaN(money[0]['money']) ? 0 : money[0]['money'];
+            users.update({ _id: req.body.depositId }, {
+                $set:
+                    { "money": parseInt(newMoney)  + parseInt(req.body.money) }
+            }
+            ).then(
+                users.find({ _id: req.body.id }, { fields: { money: 1 } })
+                    .then(money => {
+                        const newMoney = isNaN(money[0]['money']) ? 0 : money[0]['money'];
+                        users.update({ _id: req.body.id }, {
+                            $set:
+                                { "money": newMoney - req.body.money }
+                        }
+                        )
+                    })
+            )
+        })
 })
 app.post('/updateUsersMoney', (req, res) => {
-    users.find({_id: req.body.id}, { fields: { money: 1 } })
-    .then( money =>  {
-        const newMoney = isNaN(money) ? 0 : money;
-        console.log(newMoney);
-        console.log(req.body.money);
-        
-        users.update({ _id: req.body.id }, { $set:
-            { "money":  newMoney - req.body.money }}
+    users.find({ _id: req.body.id }, { fields: { money: 1 } })
+        .then(money => {
+            const newMoney = isNaN(money) ? 0 : money;
+            console.log(newMoney);
+            console.log(req.body.money);
+
+            users.update({ _id: req.body.id }, {
+                $set:
+                    { "money": newMoney - req.body.money }
+            }
             )
-    })
+        })
 })
 //Settings
 app.set('port', process.env.PORT || 3000);
