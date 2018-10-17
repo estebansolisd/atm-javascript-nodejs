@@ -2,6 +2,32 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const cors = require('cors');
+//Mongodb original driver connection
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+
+// Connection URL
+const url = 'mongodb://localhost';
+
+// Database Name
+const dbName = 'users';
+
+// Create a new MongoClient
+const client = new MongoClient(url);
+
+// Use connect method to connect to the Server
+//DB CLIENT
+client.connect(function(err) {
+  assert.equal(null, err);
+  console.log("Connected successfully to mongoDB");
+
+  const db = client.db(dbName);
+
+  client.close();
+});
+
+
+//***************** */Monks connection
 const monk = require('monk');
 const db = monk('localhost/user');
 const dbConnected = monk('localhost/connectedUser');
