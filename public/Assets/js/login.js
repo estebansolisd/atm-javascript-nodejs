@@ -63,7 +63,7 @@ const register = () => {
             const User = {
                 username,
                 password,
-                money: ''
+                money: 0
             }
             fetch(API_URL, {
                 method: 'POST',
@@ -133,9 +133,6 @@ const listUsers = (username, password) => {
                             'content-type': 'application/json'
                         }
                     }).then(response => response.json())
-                    .then(createdConUser => {
-                        console.log(createdConUser);
-                    })
                     window.location = "Views/menu.html";
                 }
             });

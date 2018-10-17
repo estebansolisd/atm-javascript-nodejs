@@ -47,8 +47,9 @@ const Submited = (msg) => {
                     fetch(LASTID)
                         .then(response => response.json())
                         .then(conUser => {
+                            console.log(conUser[0]['id']);
                             const UserWindraw = {
-                                id : conUser._id,
+                                id : conUser[0]['id'],
                                 money : moneyWindraw 
                             }
                             fetch(URLM, {

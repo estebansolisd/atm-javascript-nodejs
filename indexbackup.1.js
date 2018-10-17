@@ -2,12 +2,38 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const cors = require('cors');
+//Mongodb original driver connection
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+
+// Connection URL
+const url = 'mongodb://localhost';
+
+// Database Name
+const dbName = 'users';
+
+// Create a new MongoClient
+const client = new MongoClient(url);
+
+// Use connect method to connect to the Server
+//DB CLIENT
+client.connect(function(err) {
+  assert.equal(null, err);
+  console.log("Connected successfully to mongoDB");
+
+  const db = client.db(dbName);
+
+  client.close();
+});
+
+
+//***************** */Monks connection
 const monk = require('monk');
 const db = monk('localhost/user');
 const dbConnected = monk('localhost/connectedUser');
 const connectedUser = dbConnected.get('connectedUser');
 const users = db.get('users');
-/** For remove all data*/ 
+// For remove all data connectedUser.remove( { } )
 //Validating the data
 const isValidNew = user => user.username && user.username.toString().trim() !== '' && user.password && user.password.toString().trim()
 //Some settings for the json
@@ -80,13 +106,10 @@ app.post('/connectedUser', (req, res) => {
     }
     if (req.body.id !== '') {
         connectedUser
-            .remove({}, () =>{
-                connectedUser
-                .insert(conUser)
-                .then(conUsers => {
-                    res.json(conUsers);
-                })
-            })
+            .insert(conUser)
+            .then(conUsers => {
+                res.json(conUsers);
+            });
         console.log('Connected user inseted');
     } else {
         res.status(422);
@@ -102,16 +125,11 @@ app.post('/updateUsers', (req, res) => {
         }).then(console.log('Update user db'));
 })
 app.post('/updateUsersMoney', (req, res) => {
-    users.find({_id: req.body.id}, { fields: { money: 1 } })
-    .then( money =>  {
-        const newMoney = isNaN(money) ? 0 : money;
-        console.log(newMoney);
-        console.log(req.body.money);
-        
-        users.update({ _id: req.body.id }, { $set:
-            { "money":  newMoney - req.body.money }}
-            )
-    })
+    let money = users.find({_id: req.body.id}, { fields: { money: 1 } });
+    console.log(money)
+    users.update({ _id: req.body.id }, { $set:
+        { "money":  money - req.body.money }}
+        )
 })
 //Settings
 app.set('port', process.env.PORT || 3000);
