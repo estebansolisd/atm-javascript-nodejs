@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.4",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "mongodb": "^3.1.8",
     "monk": "^6.0.6",
     "nodemon": "^1.18.4"
